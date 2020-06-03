@@ -10,16 +10,25 @@ export default createGlobalStyle`
 		width: 100%;
 		height: 100%;
 
-		max-height:100vh;
-		max-height:1920px;
-		overflow:hidden;
 	}
 
 
 	body{
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-		background: ${(props) => props.theme.colors.background}
+		background: ${(props) => props.theme.colors.background};
+		color: ${(props) => props.theme.colors.text};
 	}
+
+	body, input, button {
+		font-family: Roboto, Arial, Helvetica, sans-serif;
+	}
+
+
+	h1,h2,h3,h4,h5,h6 {
+		color: ${(prosp) => prosp.theme.colors.title};
+		font-family: Ubuntu;
+	}
+
 
 
 `;
