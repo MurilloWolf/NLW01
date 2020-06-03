@@ -11,13 +11,13 @@ class PointsController {
 
 		const points = await knex('points')
 			.join('point_item', 'point_id', '=', 'point_item.point_id')
-			.whereIn('point_items.item_id', parsedItems)
+			.whereIn('point_item.item_id', parsedItems)
 			.where('city', String(city))
 			.where('uf', String(uf))
 			.distinct()
 			.select('points.*')
 
-		return res.json(points)
+		return res.json({ points })
 	}
 
 	async show(req: Request, res: Response) {
@@ -27,9 +27,10 @@ class PointsController {
 			return res.status(404).json({ message: 'Ponto não encontrado ' })
 
 		const items = await knex('items')
-			.join('point_item', 'items_id', '=', 'point_item.item_id')
+			.join('point_item', 'items.id', '=', 'point_item.item_id')
 			.where('point_item.point_id', id)
 			.select('items.title')
+
 		return res.json({ point, items })
 	}
 
@@ -54,7 +55,6 @@ class PointsController {
 			longitude,
 			uf,
 			city,
-			items,
 		}
 		const trx = await knex.transaction()
 		const insertedIds = await trx('points').insert(point)
