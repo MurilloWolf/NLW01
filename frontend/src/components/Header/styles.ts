@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const Header = styled.div`
 	margin: 48px 0 0;
-
+	width: 100%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -16,6 +16,7 @@ const Header = styled.div`
 		align-items: center;
 
 		svg {
+			align-self: flex-end;
 			margin-right: 16px;
 			color: ${(props) => props.theme.colors.primary};
 		}

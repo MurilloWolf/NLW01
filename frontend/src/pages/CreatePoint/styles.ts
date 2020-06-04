@@ -34,7 +34,7 @@ const Form = styled.form`
 		span {
 			font-size: 14px;
 			font-weight: normal;
-			color: var(--text-color);
+			color: ${(props) => props.theme.colors.text};
 		}
 		h2 {
 			font-size: 24px;
@@ -61,6 +61,7 @@ const Field = styled.div`
 		border-radius: 8px;
 		border: 0;
 		padding: 16px 24px;
+		margin: 0 0 0 8px;
 		font-size: 16px;
 		color: ${(props) => props.theme.colors.secondary};
 	}
@@ -76,6 +77,7 @@ const Field = styled.div`
 		padding: 16px 24px;
 		font-size: 16px;
 		color: #6c6c80;
+		margin: 0 0 0 8px;
 	}
 	label {
 		font-size: 14px;
@@ -137,7 +139,9 @@ const ItemsGrid = styled.div`
 	}
 
 	.selected {
-		background: ${(props) => props.theme.colors.background};
+		background: ${(props) => props.theme.colors.primary};
+		opacity: 0.55;
+		color: ${(props) => props.theme.colors.text};
 		border: 2px solid #34cb79;
 	}
 `;

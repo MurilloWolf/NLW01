@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import Header from "../../components/Header";
 import Styles from "./styles";
 import { Map, TileLayer, Marker } from "react-leaflet";
@@ -20,12 +21,18 @@ interface IBGECityResponse {
 }
 
 const CreatePoint: React.FC = () => {
+	const history = useHistory();
 	const [selected, setSelected] = React.useState<Number[]>([]);
 	const [items, setItems] = React.useState<Item[]>([]);
 	const [ufs, setUfs] = React.useState<string[]>([]);
 	const [cities, setCities] = React.useState<string[]>([]);
+	const [citySelected, setCity] = React.useState("");
 	const [selectedUf, setSelectedUf] = React.useState("0");
-
+	const [formData, setFormData] = React.useState({
+		name: "",
+		email: "",
+		whatsapp: "",
+	});
 	const [selectedPosition, setSelectedPosition] = React.useState<
 		[number, number]
 	>([0, 0]);
@@ -33,6 +40,32 @@ const CreatePoint: React.FC = () => {
 	const [initialPosition, setInitialPosition] = React.useState<
 		[number, number]
 	>([0, 0]);
+
+	async function handleSubimit(event: React.FormEvent) {
+		event.preventDefault();
+		const { name, email, whatsapp } = formData;
+		const uf = selectedUf;
+		const [latitude, longitude] = selectedPosition;
+		const items = selected;
+		const city = citySelected;
+		const data = {
+			name,
+			email,
+			whatsapp,
+			uf,
+			latitude,
+			longitude,
+			items,
+			city,
+		};
+		await api.post("points", data);
+		history.push("/success");
+	}
+
+	function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+		const { name, value } = event.target;
+		setFormData({ ...formData, [name]: value });
+	}
 
 	function handleMapClick(event: LeafletMouseEvent) {
 		setSelectedPosition([event.latlng.lat, event.latlng.lng]);
@@ -46,6 +79,9 @@ const CreatePoint: React.FC = () => {
 		const isSelected = selected.indexOf(value);
 
 		return isSelected >= 0 ? "selected" : "";
+	}
+	function handleChangeCity(event: React.ChangeEvent<HTMLSelectElement>) {
+		setCity(event.target.value);
 	}
 
 	function handleSelected(event: React.MouseEvent<HTMLLIElement>) {
@@ -95,7 +131,7 @@ const CreatePoint: React.FC = () => {
 	return (
 		<Styles.Container>
 			<Header linkBack />
-			<Styles.Form>
+			<Styles.Form onSubmit={handleSubimit}>
 				<h1>
 					Cadastro do <br /> ponto de coleta
 				</h1>
@@ -105,17 +141,32 @@ const CreatePoint: React.FC = () => {
 					</legend>
 					<Styles.Field>
 						<label htmlFor={"name"}>Nome da entidade</label>
-						<input type={"text"} name={"name"} id={"name"} />
+						<input
+							type={"text"}
+							name={"name"}
+							id={"name"}
+							onChange={handleInputChange}
+						/>
 					</Styles.Field>
 
 					<Styles.FieldGroup>
 						<Styles.Field>
 							<label htmlFor={"email"}>E-mail</label>
-							<input type={"text"} name={"email"} id={"email"} />
+							<input
+								type={"text"}
+								name={"email"}
+								id={"email"}
+								onChange={handleInputChange}
+							/>
 						</Styles.Field>
 						<Styles.Field>
 							<label htmlFor={"whatsapp"}>Whatsapp</label>
-							<input type={"text"} name={"whatsapp"} id={"whatsapp"} />
+							<input
+								type={"text"}
+								name={"whatsapp"}
+								id={"whatsapp"}
+								onChange={handleInputChange}
+							/>
 						</Styles.Field>
 					</Styles.FieldGroup>
 				</fieldset>
@@ -155,7 +206,7 @@ const CreatePoint: React.FC = () => {
 						</Styles.Field>
 						<Styles.Field>
 							<label htmlFor={"city"}>Cidade</label>
-							<select name={"city"} id={"city"}>
+							<select name={"city"} id={"city"} onChange={handleChangeCity}>
 								<option value={0}>Seleciona uma cidade</option>
 								{cities.map((item, key) => {
 									return (
@@ -180,8 +231,8 @@ const CreatePoint: React.FC = () => {
 							return (
 								<li
 									key={key}
-									value={key}
-									className={"" + isSelected(key)}
+									value={key + 1}
+									className={"" + isSelected(key + 1)}
 									onClick={handleSelected}
 								>
 									<img src={item.image_url} alt={item.title} />
