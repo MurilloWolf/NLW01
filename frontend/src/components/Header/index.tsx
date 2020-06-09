@@ -39,10 +39,10 @@ const Header: React.FC<Props> = (props) => {
 				height={10}
 				width={40}
 				handleDiameter={20}
-				onColor={theme.colors.pimary}
-				offColor={theme.colors.layer3}
+				onColor={theme.colors.primary}
+				offColor={theme.colors.text}
 				offHandleColor={"#333"}
-				onHandleColor={theme.colors.primary}
+				onHandleColor={theme.colors.primaryLight}
 				uncheckedIcon={false}
 				checkedIcon={false}
 			/>

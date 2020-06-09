@@ -11,7 +11,7 @@ const Form = styled.form`
 	margin: 80px auto;
 	padding: 64px;
 	max-width: 730px;
-	background: ${(props) => props.theme.colors.layer3};
+	background: ${(props) => props.theme.colors.layer1};
 	border-radius: 8px;
 
 	display: flex;
@@ -113,8 +113,8 @@ const ItemsGrid = styled.div`
 	list-style: none;
 
 	li {
-		background: #f5f5f5;
-		border: 2px solid #f5f5f5;
+		background: ${(props) => props.theme.colors.layer3};
+		border: ${(props) => "2px solid " + props.theme.colors.layer3};
 		height: 180px;
 		border-radius: 8px;
 		padding: 32px 24px 16px;
@@ -134,13 +134,13 @@ const ItemsGrid = styled.div`
 
 			display: flex;
 			align-items: center;
-			color: ${(props) => props.theme.colors.title};
+			color: ${(props) => props.theme.colors.text};
 		}
 	}
 
 	.selected {
 		background: ${(props) => props.theme.colors.primary};
-		opacity: 0.55;
+
 		color: ${(props) => props.theme.colors.text};
 		border: 2px solid #34cb79;
 	}
@@ -151,7 +151,7 @@ const Button = styled.button`
 	height: 56px;
 	background: ${(props) => props.theme.colors.primary};
 	border-radius: 8px;
-	color: ${(props) => props.theme.colors.background};
+	color: ${(props) => props.theme.colors.title};
 	font-weight: bold;
 	font-size: 16px;
 	border: 0 !important;
